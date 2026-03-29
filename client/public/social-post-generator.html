@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>3-Phase Social Post Generator | PandoraIP Trust</title>
+<meta property="og:title" content="3-Phase Social Post Generator">
+<meta property="og:description" content="Generate industry-specific Facebook posts about HORTON AI 3-phase computing for any of 232 industry segments.">
+<meta property="og:url" content="https://pandoraip.org/social-post-generator.html">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased}
+.page{max-width:740px;margin:0 auto;padding:0 28px}
+
+.topbar{display:flex;justify-content:space-between;align-items:center;max-width:740px;margin:0 auto;padding:20px 28px 0}
+.topbar-brand{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:#2c5f4a;font-weight:900}
+.topbar-link{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;font-weight:700;color:#fff;background:#1a1a1a;padding:8px 18px;border-radius:3px;text-decoration:none}
+.topbar-link:hover{background:#333}
+
+.hero{padding:48px 0 32px;border-bottom:1px solid #e8e8e4}
+.hero h1{font-size:28px;font-weight:700;line-height:1.2;margin-bottom:12px;color:#0a0a0a}
+.hero h1 span{color:#2c5f4a}
+.hero-lead{font-size:15px;color:#333;max-width:620px;margin-bottom:8px}
+.hero-sub{font-size:13px;color:#666}
+
+.gen-section{padding:32px 0;border-bottom:1px solid #e8e8e4}
+.gen-section h2{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#2c5f4a;font-weight:900;margin-bottom:16px}
+
+.select-wrap{position:relative;margin-bottom:20px}
+.select-wrap select{width:100%;font-family:Arial,Helvetica,sans-serif;font-size:14px;padding:12px 40px 12px 14px;border:2px solid #2c5f4a;border-radius:3px;background:#fafcfb;color:#1a1a1a;appearance:none;-webkit-appearance:none;cursor:pointer}
+.select-wrap select:focus{outline:none;border-color:#1a3d2e;box-shadow:0 0 0 3px rgba(44,95,74,0.15)}
+.select-wrap::after{content:'';position:absolute;right:16px;top:50%;transform:translateY(-50%);width:0;height:0;border-left:5px solid transparent;border-right:5px solid transparent;border-top:6px solid #2c5f4a;pointer-events:none}
+
+.segment-status{display:flex;align-items:center;gap:8px;font-size:12px;color:#666;margin-bottom:16px;min-height:20px}
+.status-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.dot-green{background:#2c5f4a}
+.dot-black{background:#1a1a1a}
+
+.btn-row{display:flex;gap:12px;flex-wrap:wrap}
+.gen-btn{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;color:#fff;background:#1a1a1a;border:none;padding:14px 28px;border-radius:3px;cursor:pointer;letter-spacing:0.3px}
+.gen-btn:hover{background:#333}
+.gen-btn:disabled{background:#999;cursor:not-allowed}
+.gen-btn.green{background:#2c5f4a}
+.gen-btn.green:hover{background:#1a3d2e}
+.gen-btn.green:disabled{background:#8ab39c}
+
+.copy-btn{font-family:Arial,Helvetica,sans-serif;font-size:14px;font-weight:700;color:#2c5f4a;background:#fff;border:2px solid #2c5f4a;padding:12px 28px;border-radius:3px;cursor:pointer}
+.copy-btn:hover{background:#f0f7f3}
+.copy-btn.copied{background:#2c5f4a;color:#fff}
+.copy-btn:disabled{opacity:0.4;cursor:not-allowed}
+
+.output-section{padding:32px 0;border-bottom:1px solid #e8e8e4}
+.output-section h2{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#2c5f4a;font-weight:900;margin-bottom:16px}
+
+.post-preview{border:2px solid #e0e0e0;border-radius:6px;padding:24px;background:#fafafa;min-height:200px;position:relative}
+.post-preview.empty{display:flex;align-items:center;justify-content:center;color:#aaa;font-size:14px;font-style:italic}
+.post-preview.loading{display:flex;align-items:center;justify-content:center}
+.post-text{font-size:15px;color:#1a1a1a;line-height:1.8;white-space:pre-wrap;word-wrap:break-word}
+
+.spinner{width:32px;height:32px;border:3px solid #e0e0e0;border-top-color:#2c5f4a;border-radius:50%;animation:spin 0.8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+.loading-text{font-size:13px;color:#888;margin-top:12px;text-align:center}
+
+.post-meta{display:flex;justify-content:space-between;align-items:center;margin-top:16px;padding-top:12px;border-top:1px solid #e8e8e4}
+.post-meta span{font-size:12px;color:#888}
+.char-count{font-family:monospace}
+
+.fallback-note{background:#fff3cd;border:1px solid #ffc107;border-radius:3px;padding:12px 16px;margin-top:16px;font-size:12px;color:#856404;display:none}
+
+.info-section{padding:32px 0}
+.info-section h2{font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#2c5f4a;font-weight:900;margin-bottom:16px}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.info-card{border:1px solid #d0e8da;border-radius:3px;padding:16px 18px;background:#f7faf8}
+.info-card .num{font-size:24px;font-weight:900;color:#2c5f4a;line-height:1}
+.info-card .desc{font-size:12px;color:#555;margin-top:6px;line-height:1.4}
+
+.footer{text-align:center;padding:28px 24px;border-top:1px solid #e8e8e4;margin-top:8px}
+.footer a{color:#888;font-size:12px;text-decoration:none;margin:0 12px}
+.footer a:hover{color:#2c5f4a}
+.footer .org{display:block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:#bbb;margin-top:14px}
+
+@media(max-width:600px){
+  .topbar{padding:16px 16px 0}
+  .page{padding:0 16px}
+  .hero{padding:36px 0 24px}
+  .hero h1{font-size:22px}
+  .btn-row{flex-direction:column}
+  .gen-btn,.copy-btn{width:100%;text-align:center}
+  .info-grid{grid-template-columns:1fr}
+  .post-preview{padding:16px}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-brand">PandoraIP DEC Trust</div>
+  <a href="https://pandoraip.org/register.html" class="topbar-link">Register</a>
+</div>
+
+<div class="page">
+
+<div class="hero">
+  <h1>3-Phase <span>Social Post Generator</span></h1>
+  <p class="hero-lead">Pick your industry. Get a ready-to-post Facebook message explaining what 3-phase computing and HORTON AI do for that industry. Copy it. Post it. Done.</p>
+  <p class="hero-sub">232 industry segments. Each one gets a custom post with real specs, real value, and a direct link to register.</p>
+</div>
+
+<div class="gen-section">
+  <h2>Select Industry Segment</h2>
+
+  <div class="select-wrap">
+    <select id="segmentSelect" data-testid="select-segment">
+      <option value="">-- Choose an industry segment --</option>
+    </select>
+  </div>
+
+  <div class="segment-status" id="segmentStatus"></div>
+
+  <div class="btn-row">
+    <button class="gen-btn green" id="generateBtn" onclick="generatePost()" disabled data-testid="button-generate">Generate Post</button>
+    <button class="copy-btn" id="copyBtn" onclick="copyPost()" disabled data-testid="button-copy">Copy to Clipboard</button>
+  </div>
+</div>
+
+<div class="output-section">
+  <h2>Generated Post</h2>
+
+  <div class="post-preview empty" id="postPreview" data-testid="text-post-preview">
+    Select an industry and click "Generate Post" to create your Facebook post.
+  </div>
+
+  <div class="post-meta" id="postMeta" style="display:none">
+    <span>Generated for: <strong id="postSegment" data-testid="text-post-segment"></strong></span>
+    <span class="char-count" id="charCount" data-testid="text-char-count"></span>
+  </div>
+
+  <div class="fallback-note" id="fallbackNote">
+    AI generation unavailable. Using template-based generation instead.
+  </div>
+</div>
+
+<div class="info-section">
+  <h2>What This Post Covers</h2>
+  <div class="info-grid">
+    <div class="info-card">
+      <div class="num">60%</div>
+      <div class="desc">CPU utilization improvement on existing hardware using 3-phase architecture</div>
+    </div>
+    <div class="info-card">
+      <div class="num">$60</div>
+      <div class="desc">Manufacturing cost of the HORTON AI module — 26 TOPS, 2.5W, sub-ms latency</div>
+    </div>
+    <div class="info-card">
+      <div class="num">x175</div>
+      <div class="desc">Expected maturity value on Trust Corpus deposits over lifecycle</div>
+    </div>
+    <div class="info-card">
+      <div class="num">232</div>
+      <div class="desc">Industry segments — each one a founding position in the DEC Trust</div>
+    </div>
+  </div>
+</div>
+
+<div class="footer">
+  <a href="https://pandoraip.org/register.html">Register</a>
+  <a href="https://pandoraip.org/dec-capability-horizon.html">DEC Architecture</a>
+  <a href="https://pandoraip.org/keyence-trust-pitch.html">HORTON Spec Sheet</a>
+  <a href="https://pandoraip.org/standing-wave-nic-social-posts.html">NIC Social Posts</a>
+  <span class="org">PandoraIP Public Trust</span>
+</div>
+
+</div>
+
+<script>
+const API_BASE = 'https://pandoraip.live';
+let segments = [];
+let currentPost = '';
+
+async function loadSegments() {
+  try {
+    const res = await fetch(API_BASE + '/api/industry-segments');
+    if (!res.ok) throw new Error('Failed to load');
+    segments = await res.json();
+    const select = document.getElementById('segmentSelect');
+    segments.forEach(seg => {
+      const opt = document.createElement('option');
+      opt.value = seg.slug;
+      opt.textContent = seg.name;
+      opt.dataset.active = seg.bankAccountActive ? '1' : '0';
+      opt.dataset.claimed = seg.claimedBy || '';
+      opt.dataset.members = seg.memberCount || 0;
+      select.appendChild(opt);
+    });
+  } catch (e) {
+    console.error('Failed to load segments:', e);
+    const select = document.getElementById('segmentSelect');
+    const opt = document.createElement('option');
+    opt.textContent = 'Error loading segments — refresh page';
+    opt.disabled = true;
+    select.appendChild(opt);
+  }
+}
+
+document.getElementById('segmentSelect').addEventListener('change', function() {
+  const slug = this.value;
+  const btn = document.getElementById('generateBtn');
+  const status = document.getElementById('segmentStatus');
+
+  if (!slug) {
+    btn.disabled = true;
+    status.innerHTML = '';
+    return;
+  }
+
+  btn.disabled = false;
+  const seg = segments.find(s => s.slug === slug);
+  if (seg) {
+    status.textContent = '';
+    const dot = document.createElement('span');
+    dot.className = 'status-dot ' + (seg.bankAccountActive ? 'dot-green' : 'dot-black');
+    const state = seg.bankAccountActive
+      ? 'Bank account active — accepting deposits'
+      : 'Unclaimed — be the first to found this circle';
+    const members = seg.memberCount > 0 ? ' | ' + seg.memberCount + ' member' + (seg.memberCount > 1 ? 's' : '') : '';
+    status.appendChild(dot);
+    status.appendChild(document.createTextNode(' ' + seg.name + ': ' + state + members));
+  }
+});
+
+const INDUSTRY_HOOKS = {
+  'music': { pain: 'latency kills live performance and studio flow', fix: 'capture, process, and output run simultaneously — zero buffer, zero delay', asset: 'Every track encrypted and IP-stamped at the moment of recording' },
+  'audio': { pain: 'latency kills live performance and studio flow', fix: 'capture, process, and output run simultaneously — zero buffer, zero delay', asset: 'Every track encrypted and IP-stamped at the moment of recording' },
+  'recording': { pain: '$400/hr studio time and acoustic noise floors', fix: 'DSP runs on Ring B while capture and output run in parallel — the room stops mattering', asset: 'A $60 module replaces a $400/hour recording room' },
+  'photo': { pain: 'RAW processing bottlenecks and cloud dependency for AI enhancement', fix: 'image processing and AI enhancement run at the sensor level on dedicated cores', asset: 'Every image sealed with cryptographic identity at capture — AI training on your images becomes impossible' },
+  'video': { pain: 'render times, export queues, and GPU bottleneck for effects', fix: 'encoding, effects processing, and preview render run on separate phase rings simultaneously', asset: 'Real-time editing previews without proxy files' },
+  'health': { pain: 'patient data in the cloud, HIPAA compliance overhead, diagnostic latency', fix: 'continuous biosignal analysis on-device — data never leaves the module', asset: 'Disease prediction 5-10 years before symptoms from pattern recognition' },
+  'medical': { pain: 'patient data in the cloud, HIPAA compliance overhead, diagnostic latency', fix: 'continuous biosignal analysis on-device — data never leaves the module', asset: 'HIPAA compliance is automatic because no patient data ever leaves the module' },
+  'farm': { pain: 'sensor data round-trips to cloud servers, connectivity gaps in the field', fix: 'soil analysis, pest detection, crop health classification all at the edge over mesh', asset: 'Every calorie traced farm-to-table with cryptographic provenance' },
+  'agri': { pain: 'sensor data round-trips to cloud servers, connectivity gaps in the field', fix: 'soil analysis, pest detection, crop health classification all at the edge over mesh', asset: 'Irrigation optimization from real-time evapotranspiration modeling' },
+  'auto': { pain: 'sensor fusion latency, ECU spoofing, cloud-dependent ADAS', fix: 'V2X mesh shares 26 TOPS of sensor fusion with every vehicle in range — every frame current', asset: 'CAN bus authenticated at hardware level — no ECU spoofing possible' },
+  'vehicle': { pain: 'sensor fusion latency, ECU spoofing, cloud-dependent ADAS', fix: 'V2X mesh shares 26 TOPS of sensor fusion with every vehicle in range', asset: 'Battery management AI optimizes cell balancing in real time' },
+  'energy': { pain: 'grid monitoring dependent on expensive SCADA, meter fraud, intermittent renewables', fix: 'smart meter fraud detection at the meter, grid load prediction per node', asset: '26 TOPS catches thermal anomalies that $200K SCADA systems miss' },
+  'solar': { pain: 'output forecasting dependent on external APIs and cloud analytics', fix: 'solar output forecasting from local weather inference on-device', asset: 'Battery storage optimization runs at the edge' },
+  'telecom': { pain: 'deep packet inspection, expensive infrastructure upgrades, surveillance concerns', fix: 'subscriber traffic classification without DPI — AI identifies patterns, not content', asset: 'Existing coax becomes 7.2G sovereign bandwidth without replacing cable' },
+  'bank': { pain: 'overnight batch processing, PCI-DSS middleware costs, fraud detection delays', fix: 'transaction fraud detection at the point of sale in sub-millisecond', asset: 'Real-time audit at the moment of transaction — no PCI-DSS middleware required' },
+  'financ': { pain: 'overnight batch processing, PCI-DSS middleware costs, fraud detection delays', fix: 'transaction fraud detection at the point of sale in sub-millisecond', asset: 'Continuous KYC/AML scoring on-device' },
+  'manufact': { pain: 'expensive vision systems, cloud-dependent quality control, MES middleware', fix: 'defect detection at 120 fps on the line — one module per station replaces $50K camera systems', asset: 'Predictive maintenance catches bearing failure 72 hours before shutdown' },
+  'cyber': { pain: 'software-based encryption can be backdoored, key management complexity', fix: 'encryption runs on dedicated hardware phase — no software backdoor can defeat hardware physics', asset: 'Identity derived from behavioral data that synthetic inputs cannot replicate' },
+  'gaming': { pain: 'network lag, GPU rental costs, centralized server dependency', fix: 'zero-latency compute means zero-lag gaming over encrypted mesh', asset: 'Volumetric presence — the other player is in the room' },
+  'education': { pain: 'cloud subscription costs, student data privacy, remote access inequality', fix: 'AI tutoring runs locally on every student device — no internet required', asset: 'Population-scale research with sovereign compute' },
+  'real estate': { pain: 'building management systems from 5 vendors that do not talk to each other', fix: 'digital twin updated continuously from every sensor through one mesh', asset: 'Every building with a module becomes a real-time intelligent asset' },
+  'logistics': { pain: 'package tracking gaps, warehouse coordination overhead, last-mile prediction failures', fix: 'AI route optimization per node, warehouse robotics over encrypted mesh', asset: 'Every handoff cryptographically logged — lost packages become mathematically impossible' },
+  'pharma': { pain: 'clinical trial data sovereignty, cold chain failures, FDA compliance paper trails', fix: 'protein folding inference at the edge, cold chain verification with AI anomaly detection', asset: 'Patient genomic data never leaves the research site' },
+  'nonprofit': { pain: 'donor transparency demands, overhead ratio scrutiny, impact measurement', fix: 'every dollar tracked on-chain with cryptographic proof of impact', asset: 'The Trust Corpus IS the humanitarian fund — direct allocation, no middlemen' },
+  'defense': { pain: 'satellite dependency, centralized database vulnerability, backdoor concerns', fix: 'sovereign classified channels over mesh — routes around destroyed infrastructure', asset: 'Hardware encryption that no nation-state can backdoor' },
+  'ai': { pain: 'GPU rental costs, data center dependency, training cluster network bottlenecks', fix: '3-phase CPU architecture eliminates the bottleneck that makes AI expensive', asset: 'Edge inference at 26 TOPS without cloud API fees or data harvesting' },
+  'construct': { pain: 'jobsite connectivity, safety monitoring gaps, equipment utilization blind spots', fix: 'mesh network over existing cable — sensors talk to each other without internet', asset: 'Structural health monitoring in real time during construction' },
+};
+
+function findHook(segmentName) {
+  const lower = segmentName.toLowerCase();
+  for (const [key, hook] of Object.entries(INDUSTRY_HOOKS)) {
+    if (lower.includes(key)) return hook;
+  }
+  return null;
+}
+
+function generateFallback(segmentName) {
+  const hook = findHook(segmentName);
+  const specific = hook
+    ? `If you work in ${segmentName}, you already know the problem: ${hook.pain}.\n\n3-phase computing changes that today. On your existing hardware — the computer you already own — the 3-phase scheduler assigns every core a permanent role across three rings. Input, processing, output, all running simultaneously. ${hook.fix}.\n\n${hook.asset}.`
+    : `If you work in ${segmentName}, your computer has 8, 12, maybe 16 cores. You use two of them. The rest sit idle, burning electricity and doing nothing. That is the reality of single-phase computing.\n\n3-phase changes that today. On the hardware you already own, the 3-phase scheduler assigns every core a permanent role across three rings — Input, Processing, Output — running simultaneously in the same clock cycle. The cores you already paid for finally have a job.`;
+
+  return `${specific}
+
+The result is measurable: 60% CPU utilization improvement on the same machine. Everything encrypted automatically on its own dedicated phase. AI inference runs locally — no cloud, no API fees, no data harvesting. And a mesh network over existing coax cable connects every node without internet.
+
+The HORTON AI module takes this further. A $60 chip — 26 TOPS of AI inference at 2.5W — purpose-built for 3-phase operation. Sub-millisecond latency. Plug it into the coax already in your wall. Two connections: coax and power. Done.
+
+Pre-ordering does not cost you anything in the traditional sense. The "payment" is a deposit into your own bank account at Institution for Savings. The money does not leave you. It generates x175 expected maturity value over the lifecycle of the Trust Corpus. More deposit means more return.
+
+The ${segmentName} segment is open right now. The first person to claim it founds the circle — every person who joins after joins your circle. You set the direction. You recruit. You lead.
+
+Register at pandoraip.org/register.html and claim ${segmentName} before someone else does.
+
+#3PhaseComputing #HORTONAI #${segmentName.replace(/[^a-zA-Z0-9]/g, '')} #SovereignCompute #GreenTech`;
+}
+
+async function generatePost() {
+  const select = document.getElementById('segmentSelect');
+  const slug = select.value;
+  if (!slug) return;
+
+  const seg = segments.find(s => s.slug === slug);
+  const segmentName = seg ? seg.name : slug;
+
+  const btn = document.getElementById('generateBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const preview = document.getElementById('postPreview');
+  const meta = document.getElementById('postMeta');
+  const fallbackNote = document.getElementById('fallbackNote');
+
+  btn.disabled = true;
+  btn.textContent = 'Generating...';
+  copyBtn.disabled = true;
+  fallbackNote.style.display = 'none';
+  preview.className = 'post-preview loading';
+  preview.textContent = '';
+  const spinWrap = document.createElement('div');
+  spinWrap.style.textAlign = 'center';
+  const spinEl = document.createElement('div');
+  spinEl.className = 'spinner';
+  const loadTxt = document.createElement('div');
+  loadTxt.className = 'loading-text';
+  loadTxt.textContent = 'Generating post for ' + segmentName + '...';
+  spinWrap.appendChild(spinEl);
+  spinWrap.appendChild(loadTxt);
+  preview.appendChild(spinWrap);
+
+  let usedFallback = false;
+
+  try {
+    const res = await fetch(API_BASE + '/api/social-post-generator', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ segmentName, segmentSlug: slug })
+    });
+
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+    currentPost = data.post;
+  } catch (e) {
+    console.warn('AI generation failed, using fallback:', e);
+    currentPost = generateFallback(segmentName);
+    usedFallback = true;
+  }
+
+  preview.className = 'post-preview';
+  preview.textContent = '';
+  const postTextEl = document.createElement('div');
+  postTextEl.className = 'post-text';
+  postTextEl.id = 'postText';
+  postTextEl.textContent = currentPost;
+  preview.appendChild(postTextEl);
+  meta.style.display = 'flex';
+  document.getElementById('postSegment').textContent = segmentName;
+  document.getElementById('charCount').textContent = currentPost.length + ' characters';
+
+  if (usedFallback) {
+    fallbackNote.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Generate Post';
+  copyBtn.disabled = false;
+}
+
+async function copyPost() {
+  if (!currentPost) return;
+  const btn = document.getElementById('copyBtn');
+  try {
+    await navigator.clipboard.writeText(currentPost);
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy to Clipboard';
+      btn.classList.remove('copied');
+    }, 2500);
+  } catch (e) {
+    const ta = document.createElement('textarea');
+    ta.value = currentPost;
+    ta.style.position = 'fixed';
+    ta.style.left = '-9999px';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    btn.textContent = 'Copied';
+    btn.classList.add('copied');
+    setTimeout(() => {
+      btn.textContent = 'Copy to Clipboard';
+      btn.classList.remove('copied');
+    }, 2500);
+  }
+}
+
+loadSegments();
+</script>
+</body>
+</html>
