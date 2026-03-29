@@ -1,0 +1,29 @@
+════════════════════════════════════════════════════════
+  HORTON Node Registration
+  PandoraIP DEC Trust
+════════════════════════════════════════════════════════
+
+  Claim Code:  HORTON-ONYX-DELTA-OPAL-4594
+  Install ID:  27c151d28b8494990f9ab25acb49ec0e
+
+  Algorithm:   v1.240
+  Platform:    linux x64
+  Node.js:     v20.20.0
+  Hostname:    ea3ada270409
+  Registered:  2026-03-27T16:24:16.331Z
+
+════════════════════════════════════════════════════════
+  TO LINK THIS INSTALLATION TO YOUR DEC ACCOUNT:
+
+  1. Go to pandoraip.live
+  2. Create your DEC account (or sign in)
+  3. Go to Settings > Link Installation
+  4. Enter your Claim Code: HORTON-ONYX-DELTA-OPAL-4594
+
+  Your cryptography works without an account.
+  Linking connects your node to the Trust network
+  for WC earnings, compute credits, and LORAX history.
+
+  If you reinstall or update, your Claim Code stays
+  the same. One code per machine, always.
+════════════════════════════════════════════════════════
